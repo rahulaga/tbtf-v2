@@ -6,6 +6,6 @@ This work is licensed under the Creative Commons Attribution-NonCommercial 4.0 I
 
 Notes:
 *Again this could be broken into multiple maven projects, the JAX-RS/HTTP part could be independent
-*Note "webapp" added
+*Note "webapp" added under src
 *RESTEasy integration including exception handling
 *Partially implemented REST apis
