@@ -1,0 +1,97 @@
+package com.irahul.tbtf.http;
+
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+/**
+ * Test error scenarios using a Client
+ * @author rahul
+ *
+ */
+public class TestUserResourceError {
+	private static final String HTTP_HOST = "http://localhost:8080";
+	private static final String URI_PATH = "tbtf-bank4/rest/users";
+	
+	private Client client;
+	private WebTarget target;
+	
+	@Before
+	public void init(){
+		client = ClientBuilder.newClient();
+		target = client.target(HTTP_HOST).path(URI_PATH);
+	}
+
+	@Test
+	public void testGetUsersNoParamsJson(){						
+		Response response =	target.request().accept(MediaType.APPLICATION_JSON).get();
+
+		//you can use this to print the response
+		//System.out.println("HTTP Status=" + response.getStatus());
+		//NOTE - you can read the entity ONLY once
+		//System.out.println(response.readEntity(String.class));
+				
+		verifyMissing(response);
+	}
+	
+	@Test
+	public void testGetUsersNoParamsXml(){						
+		Response response =	target.request().accept(MediaType.APPLICATION_XML).get();
+		
+		verifyMissing(response);
+	}
+
+	private void verifyMissing(Response response) {
+		HttpError error = response.readEntity(HttpError.class);
+		Assert.assertEquals(409, response.getStatus());
+		Assert.assertEquals(409, error.status);
+		Assert.assertEquals("MISSING_DATA", error.code);
+		Assert.assertEquals("no search parameter provided", error.message);
+		Assert.assertEquals("", error.debug);		
+	}
+	
+	@Test
+	public void testCreateUsersNoParamsXml(){					
+		Response response =	target.request().accept(MediaType.APPLICATION_XML).post(Entity.entity("<user/>", MediaType.APPLICATION_XML));
+		
+		verifyInvalid(response);
+	}
+	
+	@Test
+	public void testCreateUsersNoParamsEntityXml(){					
+		HttpUser userToSend = new HttpUser();		
+		Response response =	target.request().accept(MediaType.APPLICATION_XML).post(Entity.entity(userToSend, MediaType.APPLICATION_XML));
+		
+		verifyInvalid(response);
+	}
+	
+	@Test
+	public void testCreateUsersNoParamsJson(){					
+		Response response =	target.request().accept(MediaType.APPLICATION_JSON).post(Entity.entity("{user:{}}", MediaType.APPLICATION_JSON));
+		
+		verifyInvalid(response);
+	}
+	
+	@Test
+	public void testCreateUsersNoParamsEntityJson(){					
+		HttpUser userToSend = new HttpUser();		
+		Response response =	target.request().accept(MediaType.APPLICATION_JSON).post(Entity.entity(userToSend, MediaType.APPLICATION_JSON));
+		
+		verifyInvalid(response);
+	}
+
+	private void verifyInvalid(Response response) {
+		HttpError error = response.readEntity(HttpError.class);
+		Assert.assertEquals(409, response.getStatus());
+		Assert.assertEquals(409, error.status);
+		Assert.assertEquals("INVALID_FIELD", error.code);
+		Assert.assertEquals("pin is required", error.message);
+		Assert.assertEquals("", error.debug);		
+	}
+}
