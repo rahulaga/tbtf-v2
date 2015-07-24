@@ -1,12 +1,17 @@
 package com.irahul.tbtf.http;
 
+import java.util.List;
+import java.util.Random;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.codehaus.jettison.json.JSONArray;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,16 +20,15 @@ import org.junit.Test;
  * @author rahul
  *
  */
-public class TestUserResourceError {
+public class TestUserResource {
 	private static final String HTTP_HOST = "http://localhost:8080";
 	private static final String URI_PATH = "tbtf-bank4/rest/users";
 	
-	private Client client;
+	private Client client = ClientBuilder.newClient();
 	private WebTarget target;
 	
 	@Before
 	public void init(){
-		client = ClientBuilder.newClient();
 		target = client.target(HTTP_HOST).path(URI_PATH);
 	}
 
@@ -93,5 +97,28 @@ public class TestUserResourceError {
 		Assert.assertEquals("INVALID_FIELD", error.code);
 		Assert.assertEquals("pin is required", error.message);
 		Assert.assertEquals("", error.debug);		
+	}
+	
+	@Test
+	public void testCreateAndGetUser(){					
+		HttpUser userToSend = new HttpUser();
+		userToSend.firstName="foo"+new Random().nextInt(99999);
+		userToSend.lastName="bar"+new Random().nextInt(99999);;
+		userToSend.pin="12345";
+		
+		Response response =	target.request().accept(MediaType.APPLICATION_JSON).post(Entity.entity(userToSend, MediaType.APPLICATION_JSON));
+		
+		HttpUser createResponse = response.readEntity(HttpUser.class);
+		//System.err.println(createResponse);
+		Assert.assertEquals(201, response.getStatus());
+		Assert.assertEquals(createResponse.firstName, userToSend.firstName);
+		Assert.assertEquals(createResponse.lastName, userToSend.lastName);
+		Assert.assertNotNull(createResponse.id);
+		Assert.assertNull(createResponse.pin);
+		
+		//search for just created user		
+		Response search = target.queryParam("firstName", userToSend.firstName).queryParam("lastName", userToSend.lastName).request().accept(MediaType.APPLICATION_JSON).get();
+		List<HttpUser> searchResponse = search.readEntity(new GenericType<List<HttpUser>>(){});
+		Assert.assertEquals(searchResponse.get(0), createResponse);		
 	}
 }
