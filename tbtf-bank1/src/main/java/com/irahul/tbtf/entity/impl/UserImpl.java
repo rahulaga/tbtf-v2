@@ -32,5 +32,12 @@ public class UserImpl implements User {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	@Override
+	public String toString() {
+		return "UserImpl [id=" + id + ", firstName=" + firstName
+				+ ", lastName=" + lastName + "]";
 	}	
+	
 }
