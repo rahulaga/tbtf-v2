@@ -21,7 +21,7 @@ import org.junit.Test;
  */
 public class TestUserResource {
 	private static final String HTTP_HOST = "http://localhost:8080";
-	private static final String URI_PATH = "tbtf-bank4/rest/users";
+	private static final String URI_PATH = "tbtf-bank3/rest/users";
 	
 	private Client client = ClientBuilder.newClient();
 	private WebTarget target;
