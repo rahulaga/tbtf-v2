@@ -11,10 +11,10 @@
 	<url>http://www.irahul.com</url>
 
 	<properties>
-		<spring.version>4.1.2.RELEASE</spring.version>
-		<junit.version>4.11</junit.version>
-		<hibernate.version>4.3.7.Final</hibernate.version>
-		<mysqlconnector.version>5.1.34</mysqlconnector.version>
+		<spring.version>4.2.3.RELEASE</spring.version>
+		<junit.version>4.12</junit.version>
+		<hibernate.version>4.3.11.Final</hibernate.version>
+		<mysqlconnector.version>5.1.37</mysqlconnector.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
