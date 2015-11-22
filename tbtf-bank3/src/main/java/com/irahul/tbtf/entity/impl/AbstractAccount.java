@@ -14,7 +14,7 @@ import com.irahul.tbtf.util.Currency;
 @MappedSuperclass
 public abstract class AbstractAccount {
 	@Id
-	@Column(name="idchecking_account")
+	@Column(name="id_account")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
 	
