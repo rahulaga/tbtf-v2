@@ -21,4 +21,6 @@ public interface ATMService {
 	void deposit(long accountId, int amount, CheckImage check);
 	
 	void withdraw(long accountId, int amount);
+	
+	String getEnvironment();
 }

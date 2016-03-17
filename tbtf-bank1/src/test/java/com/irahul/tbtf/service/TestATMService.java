@@ -26,4 +26,11 @@ public class TestATMService extends AbstractJUnit4SpringContextTests   {
 		
 		Assert.assertNull("User should not be found",user);
 	}
+	
+	@Test
+	public void getEnv(){
+		String env = atmService.getEnvironment();
+		
+		Assert.assertEquals("foo",env);
+	}
 }

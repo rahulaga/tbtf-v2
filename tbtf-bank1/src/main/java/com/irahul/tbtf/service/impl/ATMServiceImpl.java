@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.irahul.tbtf.entity.Account;
@@ -30,6 +31,10 @@ public class ATMServiceImpl implements ATMService {
 	
 	@Autowired
 	private UserService userService;
+	
+	//example of setting primitive values
+	@Value("foo")
+	private String environment;
 	
 
 	@Override
@@ -80,6 +85,11 @@ public class ATMServiceImpl implements ATMService {
 		
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public String getEnvironment() {
+		return environment;
 	}
 
 }
