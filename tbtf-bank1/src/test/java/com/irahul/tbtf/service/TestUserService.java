@@ -26,6 +26,8 @@ public class TestUserService extends AbstractJUnit4SpringContextTests  {
 		
 		Assert.assertTrue(userGet instanceof User);
 		Assert.assertEquals(123, userGet.getId());
+		Assert.assertNull(userGet.getFirstName());
+		Assert.assertNull(userGet.getLastName());
 		System.out.println(userGet);
 	}
 	
