@@ -43,8 +43,9 @@ public class UserImpl implements User {
 	private Address address;
 	
 	@ManyToMany(targetEntity=BankLocationImpl.class, fetch=FetchType.EAGER)
-	@JoinTable(name="users_account_location", joinColumns = { @JoinColumn(name = "users_idusers", nullable = false) }, 
-			inverseJoinColumns = { @JoinColumn(name = "bank_location_idbank_location", nullable = false) })
+	@JoinTable(name="users_account_location", 
+		joinColumns = { @JoinColumn(name = "users_idusers", nullable = false) }, 
+		inverseJoinColumns = { @JoinColumn(name = "bank_location_idbank_location", nullable = false) })
 	private List<BankLocation> accountLocations;
 	
 	@OneToMany(mappedBy = "user", targetEntity=UsersAuditHistoryImpl.class, cascade=CascadeType.ALL)	

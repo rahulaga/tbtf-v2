@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.AbstractTransactionalJUnit4Spring
 import com.irahul.tbtf.entity.BankLocation;
 import com.irahul.tbtf.entity.BankLocation.Type;
 import com.irahul.tbtf.entity.impl.BankLocationImpl;
+import com.irahul.tbtf.repository.BankLocationRepository;
 
 /**
  * NOTE - extending a different class - this lets tests join the transaction
