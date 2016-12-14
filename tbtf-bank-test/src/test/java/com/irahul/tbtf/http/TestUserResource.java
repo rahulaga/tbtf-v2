@@ -61,7 +61,8 @@ public class TestUserResource {
 	
 	@Test
 	public void testCreateUsersNoParamsXml(){					
-		Response response =	target.request().accept(MediaType.APPLICATION_XML).post(Entity.entity("<user/>", MediaType.APPLICATION_XML));
+		Response response =	target.request().accept(MediaType.APPLICATION_XML)
+				.post(Entity.entity("<user/>", MediaType.APPLICATION_XML));
 		
 		verifyInvalid(response);
 	}
@@ -69,14 +70,16 @@ public class TestUserResource {
 	@Test
 	public void testCreateUsersNoParamsEntityXml(){					
 		HttpUser userToSend = new HttpUser();		
-		Response response =	target.request().accept(MediaType.APPLICATION_XML).post(Entity.entity(userToSend, MediaType.APPLICATION_XML));
+		Response response =	target.request().accept(MediaType.APPLICATION_XML)
+				.post(Entity.entity(userToSend, MediaType.APPLICATION_XML));
 		
 		verifyInvalid(response);
 	}
 	
 	@Test
 	public void testCreateUsersNoParamsJson(){					
-		Response response =	target.request().accept(MediaType.APPLICATION_JSON).post(Entity.entity("{user:{}}", MediaType.APPLICATION_JSON));
+		Response response =	target.request().accept(MediaType.APPLICATION_JSON)
+				.post(Entity.entity("{user:{}}", MediaType.APPLICATION_JSON));
 		
 		verifyInvalid(response);
 	}
@@ -84,7 +87,8 @@ public class TestUserResource {
 	@Test
 	public void testCreateUsersNoParamsEntityJson(){					
 		HttpUser userToSend = new HttpUser();		
-		Response response =	target.request().accept(MediaType.APPLICATION_JSON).post(Entity.entity(userToSend, MediaType.APPLICATION_JSON));
+		Response response =	target.request().accept(MediaType.APPLICATION_JSON)
+				.post(Entity.entity(userToSend, MediaType.APPLICATION_JSON));
 		
 		verifyInvalid(response);
 	}
@@ -105,7 +109,8 @@ public class TestUserResource {
 		userToSend.lastName="bar"+new Random().nextInt(99999);;
 		userToSend.pin="12345";
 		
-		Response response =	target.request().accept(MediaType.APPLICATION_JSON).post(Entity.entity(userToSend, MediaType.APPLICATION_JSON));
+		Response response =	target.request().accept(MediaType.APPLICATION_JSON)
+				.post(Entity.entity(userToSend, MediaType.APPLICATION_JSON));
 		
 		HttpUser createResponse = response.readEntity(HttpUser.class);
 		//System.err.println(createResponse);
@@ -116,8 +121,12 @@ public class TestUserResource {
 		Assert.assertNull(createResponse.pin);
 		
 		//search for just created user		
-		Response search = target.queryParam("firstName", userToSend.firstName).queryParam("lastName", userToSend.lastName).request().accept(MediaType.APPLICATION_JSON).get();
+		Response search = target.queryParam("firstName", userToSend.firstName)
+				.queryParam("lastName", userToSend.lastName)
+				.request()
+				.accept(MediaType.APPLICATION_JSON).get();
 		List<HttpUser> searchResponse = search.readEntity(new GenericType<List<HttpUser>>(){});
+		Assert.assertEquals(1, searchResponse.size());
 		Assert.assertEquals(searchResponse.get(0), createResponse);		
 	}
 }
